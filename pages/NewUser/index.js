@@ -4,7 +4,7 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-  
+    
     
     
  } from "react-native";
@@ -14,6 +14,7 @@ import firebase from "../../config/firebaseconfig"
 import {MaterialCommunityIcons} from "@expo/vector-icons"
 import { Platform } from "react-native";
 import 'firebase/compat/auth'
+import Modal from "./Modal"
 
 
 
@@ -24,7 +25,10 @@ export default function NewUser ({navigation}){
   const [password, setPassword] = useState("");
   const [errorRegister, setErrorRegister] = useState ("");
   const [isSelected, setSelected] = useState(false);
+ 
+  const [modalVisible, setModalVisible] = useState(false);
   
+
   const register =()=>{
     firebase.auth().createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
@@ -93,11 +97,19 @@ export default function NewUser ({navigation}){
       
            <Text 
            style ={styles.linkTermo}
-           onPress={()=> navigation.navigate("Login")} 
+           onPress={()=> setModalVisible(true)} 
            >
         
                Leia nosso termo de uso e privacidade antes do cadastro
        </Text>
+
+      
+       <Modal modalVisible={modalVisible} setModalVisible={setModalVisible} />
+          
+     
+       
+    
+
        
 
      
