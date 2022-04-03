@@ -4,19 +4,17 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 
+import { LogBox } from 'react-native';
 import Task from"./pages/Tasks";
 import NewTask from"./pages/NewTask";
 import Details from "./pages/Details"
 import Login from "./pages/Login"
 import NewUser from "./pages/NewUser"
 
-
-
-import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']); //
 
 const Stack = createStackNavigator();
- 
+
 export default function App() {
   return (
     <NavigationContainer>
@@ -56,17 +54,6 @@ export default function App() {
             headerTintColor: "#c9b4a9",
           }}
           />
-
-
-
-        
-          
-
-
-
-
-
-        
       </Stack.Navigator>
     </NavigationContainer>
   );

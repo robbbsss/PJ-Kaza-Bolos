@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
-import firebase from '../../config/firebaseconfig.js'
+import firebase from '../../config/firebaseconfig'
 import styles from "./style";
-
 
 export default function NewTask({ navigation }, props) {
  
@@ -10,7 +9,7 @@ export default function NewTask({ navigation }, props) {
     const database = firebase.firestore()
     function addTask(){
       database.collection('Tasks').add({
-        description: description,
+        description,
         status: false
       })
       navigation.navigate("Task");
