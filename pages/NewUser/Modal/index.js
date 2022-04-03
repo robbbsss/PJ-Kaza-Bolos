@@ -15,7 +15,9 @@ const termsModal = ({modalVisible, setModalVisible}) => (
         }}>
         <View style={style.centeredView}>
           <View style={style.modalView}>
-            <Text style={style.modalText}>Hello World!</Text>
+            <Text style={style.modalText}>
+              Ao clicar em ok, você se declara otaku enrustida!
+            </Text>
             <Pressable
               style={[style.button, style.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}>
