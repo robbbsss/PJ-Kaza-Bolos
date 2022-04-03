@@ -1,38 +1,34 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import {View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView , Platform} from "react-native";
 import {MaterialCommunityIcons} from "@expo/vector-icons"
 import firebase from "../../config/firebaseconfig"
-import styles from "./style";
+import style from "./style";
 
 export default function Login ({navigation}){
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorLogin, setErrorLogin] = useState ("");
 
+  const styles = style()
   const loginFirebase = ()=>{
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then((userCredential) => {
       const {user} = userCredential;
-      console.log(user)
       navigation.navigate("Task",{ idUser: user.uid })
-      
     })
-    .catch((error) => {
+    .catch(() => {
       setErrorLogin(true)
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      
     });
   }
-  
+  const isDisabled = !email  || !password
     return (
-      <KeyboardAvoidingView 
+      <KeyboardAvoidingView
       behavior={Platform.OS ==="ios" ? "padding" : "height"}
       style ={styles.container}
       >
-     
+
      <Text style={styles.title}>Kaza Bolos</Text>
-     
+
      <TextInput
       style ={styles.input}
       placeholder ="Insira seu e-mail"
@@ -40,7 +36,7 @@ export default function Login ({navigation}){
       onChangeText={(text) => setEmail(text)}
       value={email}
       />
-    
+
      <TextInput
       style ={styles.input}
       secureTextEntry
@@ -62,28 +58,21 @@ export default function Login ({navigation}){
       :
       <View/>
       }
-       {email === "" || password  === ""
-       ?
-         <TouchableOpacity
-         disable
-         style={styles.buttonLogin}
-         >
-            <Text style={styles.textButtonLogin}>Login</Text>
-         </TouchableOpacity>
-       :
-        <TouchableOpacity   
-         style={styles.buttonLogin}
-         onPress={loginFirebase}
-         >
-            <Text style={styles.textButtonLogin}>Login</Text>
-         </TouchableOpacity>
-       }
+
+      <TouchableOpacity
+        disabled={isDisabled}
+        style={style(isDisabled).buttonLogin}
+        onPress={loginFirebase}
+        >
+          <Text style={styles.textButtonLogin}>Login</Text>
+        </TouchableOpacity>
+
        <Text style={styles.registration}>
-          ainda não tem login? 
+          ainda não tem login?
        </Text>
-           <Text 
+           <Text
            style ={styles.linkSubscribe}
-           onPress={()=> navigation.navigate("NewUser")} 
+           onPress={()=> navigation.navigate("NewUser")}
            >
                Crie uma conta
        </Text>

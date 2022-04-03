@@ -1,6 +1,6 @@
 import { Platform, StyleSheet } from "react-native";
 
-const styles = StyleSheet.create({
+const styles = (isDisabled) => StyleSheet.create({
    container: {
      flex: 1,
      backgroundColor: "#E9DBD3",
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
       width :200,
       height: 50,
       justifyContent: "center",
-      backgroundColor: "#602e1c",
+      backgroundColor: `${isDisabled ? 'gray' : '#602e1c'}`,
       borderRadius: 50,
       marginTop: 30,
    },
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
    },
    registration: {
       marginTop:20,
-      color:"#4d5156",    
+      color:"#4d5156",
    },
    linkSubscribe:{
     color:"#1877f2",
