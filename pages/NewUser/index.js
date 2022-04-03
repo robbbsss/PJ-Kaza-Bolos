@@ -18,18 +18,21 @@ export default function NewUser({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorRegister, setErrorRegister] = useState('');
-  const [isSelected, setSelected] = useState(false);
 
   const [modalVisible, setModalVisible] = useState(false);
 
   const register = () => {
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
-        const { user } = userCredential;
+        console.log(userCredential)
+        // const { user } = userCredential;
+        setErrorRegister(false)
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        console.log(error)
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
+        setErrorRegister(true)
       });
   };
 
