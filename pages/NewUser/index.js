@@ -4,15 +4,17 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-
+  CheckBox,
   Platform,
 } from 'react-native';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import styles from './style';
+import style from './style';
 import firebase from '../../config/firebaseconfig';
 import 'firebase/compat/auth';
 import Modal from './Modal';
+
+const styles = style()
 
 export default function NewUser({ navigation }) {
   const [email, setEmail] = useState('');
@@ -20,21 +22,20 @@ export default function NewUser({ navigation }) {
   const [errorRegister, setErrorRegister] = useState('');
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [isSelected, setSelection] = useState(false);
 
   const register = () => {
     firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        console.log(userCredential)
-        // const { user } = userCredential;
+      .then(() => {
         setErrorRegister(false)
+        navigation.navigate('Login')
       })
-      .catch((error) => {
-        console.log(error)
-        // const errorCode = error.code;
-        // const errorMessage = error.message;
+      .catch(() => {
         setErrorRegister(true)
       });
   };
+
+  const isDisabled = !email || !password || !isSelected
 
   return (
     <KeyboardAvoidingView
@@ -74,32 +75,33 @@ export default function NewUser({ navigation }) {
         )
         : <View />}
 
-      <Text
-        style={styles.linkTermo}
-        onPress={() => setModalVisible(true)}
-      >
-        Leia nosso termo de uso e privacidade antes do cadastro
-      </Text>
+      <View style={styles.termsWrapper}>
+        <CheckBox
+          value={isSelected}
+          onValueChange={setSelection}
+          style={styles.checkbox}
+        />
+
+        <View>
+          <Text style={styles.termText}>Declaro que li e concordo com todos os</Text>
+          <Text
+            style={styles.linkTermo}
+            onPress={() => setModalVisible(true)}
+          >
+            termos de uso e privacidade.
+          </Text>
+        </View>
+      </View>
 
       <Modal modalVisible={modalVisible} setModalVisible={setModalVisible} />
 
-      {email === '' || password === ''
-        ? (
-          <TouchableOpacity
-            disable
-            style={styles.buttonRegister}
-          >
-            <Text style={styles.textButtonRegister}>Registre-se</Text>
-          </TouchableOpacity>
-        )
-        : (
-          <TouchableOpacity
-            style={styles.buttonRegister}
-            onPress={register}
-          >
-            <Text style={styles.textButtonRegister}>Register</Text>
-          </TouchableOpacity>
-        )}
+      <TouchableOpacity
+        disabled={isDisabled}
+        style={style(isDisabled).buttonRegister}
+        onPress={register}
+      >
+        <Text style={styles.textButtonRegister}>Registre-se</Text>
+      </TouchableOpacity>
 
       <Text style={styles.login}>
         Já tem conta?
