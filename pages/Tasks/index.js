@@ -5,12 +5,9 @@ import {
   TouchableOpacity,
   FlatList} 
   from "react-native";
-import firebase from "../../config/firebaseconfig.js";
 import { FontAwesome } from "@expo/vector-icons";
+import firebase from "../../config/firebaseconfig";
 import styles from "./style";
-
-
-
 
 export default function Task({ navigation }) {
   const [task, setTask] = useState([]);
@@ -33,8 +30,7 @@ export default function Task({ navigation }) {
       <FlatList
         showsVerticalScrollIndicator={false}
         data={task}
-        renderItem={( { item } )=>{
-           return(
+        renderItem={( { item } )=>(
           <View style={styles.Tasks}>
             <TouchableOpacity
               style={styles.deleteTask}
@@ -46,8 +42,7 @@ export default function Task({ navigation }) {
               name="star"
               size={23}
               color="#c95514"
-            >
-            </FontAwesome>
+             />
             </TouchableOpacity>
             <Text
               style={styles.DescriptionTask}
@@ -62,10 +57,9 @@ export default function Task({ navigation }) {
             </Text>  
 
           </View>
-          )
-        }}
+          )}
       />
-      <TouchableOpacity style
+      <TouchableOpacity 
         style={styles.buttonNewTask}
         onPress={() => navigation.navigate("New Task")}
       >

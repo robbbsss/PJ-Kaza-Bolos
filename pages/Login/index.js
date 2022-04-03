@@ -1,16 +1,9 @@
-import React, { useState, useEffect} from "react";
-import {View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView } from "react-native";
-import firebase from "../../config/firebaseconfig"
-import style from "./style"
+import React, { useState} from "react";
+import {View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView , Platform} from "react-native";
 import {MaterialCommunityIcons} from "@expo/vector-icons"
+import firebase from "../../config/firebaseconfig"
 import styles from "./style";
-import { Platform } from "react-native";
-import { LogBox } from 'react-native';
 
-
-
-
-import { NavigationContainer } from "@react-navigation/native";
 export default function Login ({navigation}){
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,30 +12,19 @@ export default function Login ({navigation}){
   const loginFirebase = ()=>{
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then((userCredential) => {
-      let user =userCredential.user;
+      const {user} = userCredential;
       console.log(user)
       navigation.navigate("Task",{ idUser: user.uid })
       
     })
     .catch((error) => {
       setErrorLogin(true)
-      let errorCode = error.code;
-      let errorMessage = error.message;
+      const errorCode = error.code;
+      const errorMessage = error.message;
       
     });
   }
   
-
-
-
-
-  useEffect(()=>{
-
-
-  }, []);
-
-
-
     return (
       <KeyboardAvoidingView 
       behavior={Platform.OS ==="ios" ? "padding" : "height"}
@@ -61,7 +43,7 @@ export default function Login ({navigation}){
     
      <TextInput
       style ={styles.input}
-      secureTextEntry={true}
+      secureTextEntry
       placeholder ="Insira sua senha"
       type ="text"
       onChangeText={(text) => setPassword(text)}
@@ -83,7 +65,7 @@ export default function Login ({navigation}){
        {email === "" || password  === ""
        ?
          <TouchableOpacity
-         disable={true}
+         disable
          style={styles.buttonLogin}
          >
             <Text style={styles.textButtonLogin}>Login</Text>
